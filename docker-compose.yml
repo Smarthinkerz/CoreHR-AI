@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-corehr}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_please}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in your .env file}
       POSTGRES_DB: ${POSTGRES_DB:-corehr}
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -22,7 +22,7 @@ services:
     command: ["npm", "run", "db:push"]
     environment:
       DATABASE_DRIVER: pg
-      DATABASE_URL: postgres://${POSTGRES_USER:-corehr}:${POSTGRES_PASSWORD:-change_me_please}@db:5432/${POSTGRES_DB:-corehr}
+      DATABASE_URL: postgres://${POSTGRES_USER:-corehr}:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in your .env file}@db:5432/${POSTGRES_DB:-corehr}
     depends_on:
       db:
         condition: service_healthy
@@ -40,7 +40,7 @@ services:
       PORT: 5000
       # Use the standard PostgreSQL driver to talk to the bundled `db` service.
       DATABASE_DRIVER: pg
-      DATABASE_URL: postgres://${POSTGRES_USER:-corehr}:${POSTGRES_PASSWORD:-change_me_please}@db:5432/${POSTGRES_DB:-corehr}
+      DATABASE_URL: postgres://${POSTGRES_USER:-corehr}:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in your .env file}@db:5432/${POSTGRES_DB:-corehr}
     ports:
       - "${APP_PORT:-5000}:5000"
     depends_on:
